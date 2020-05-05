@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>服务异常</title>
+    <link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.png">
+  <style>
+    .error-container{
+      text-align: center;
+      margin: 220px auto;
+      width: 720px;
+    }
+    .error-container:after{
+      content: '';
+      display: block;
+      clear: both;
+    }
+    .error-container > div{
+      float: left;
+    }
+    .error-container .left img{
+      width: 330px;
+    }
+    .error-container .right {
+      letter-spacing: 1px;
+      margin-left: 50px;
+    }
+    .error-container .right .status-title{
+      font-size: 120px;
+      letter-spacing: 10px;
+      line-height: 168px;
+      color: #cccccc;
+    }
+    .error-container .right .comment{
+      color: #888888;
+      margin-top: 30px;
+    }
+    .error-container .right .reload{
+      margin-top: 70px;
+      color: #16BC83;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<div class="error-container">
+  <div class="left">
+    <img src="/icon/img_500@2x.png">
+  </div>
+  <div class="right">
+    <div class="status-title">500</div>
+    <div class="comment">Sorry… 服务器开小差啦! 请点击重新加载~</div>
+    <div class="reload" onclick="window.location.reload()">点击重新加载~</div>
+  </div>
+</div>
+</body>
+</html>

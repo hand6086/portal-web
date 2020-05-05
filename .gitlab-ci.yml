@@ -1,0 +1,62 @@
+image: registry.cn-hangzhou.aliyuncs.com/choerodon-tools/cifront:0.7.0
+
+stages:
+  - node_build
+  - docker_build
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+node_build:
+  stage: node_build
+  script:
+    - node_module
+    - node_build 'build'
+    - mkdir -p /cache/${CI_PROJECT_NAME}-${CI_PROJECT_ID}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA}/app
+    - cp -r .nuxt /cache/${CI_PROJECT_NAME}-${CI_PROJECT_ID}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA}/app/.nuxt
+    - cp -r node_modules /cache/${CI_PROJECT_NAME}-${CI_PROJECT_ID}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA}/app/node_modules
+    - cp -r server /cache/${CI_PROJECT_NAME}-${CI_PROJECT_ID}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA}/app/server
+    - cp -r static /cache/${CI_PROJECT_NAME}-${CI_PROJECT_ID}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA}/app/static
+    - cp -r package.json /cache/${CI_PROJECT_NAME}-${CI_PROJECT_ID}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA}/app/package.json
+    - cp -r nuxt.config.js /cache/${CI_PROJECT_NAME}-${CI_PROJECT_ID}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA}/app/nuxt.config.js
+    - cp -r custom.router.js /cache/${CI_PROJECT_NAME}-${CI_PROJECT_ID}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA}/app/custom.router.js
+  only:
+    - master
+    - /^release-.*$/
+    - /^hotfix-.*$/
+
+docker_build:
+  image: registry.cn-hangzhou.aliyuncs.com/choerodon-tools/cibase:0.7.0
+  stage: docker_build
+  script:
+    - docker_build
+    - rm -rf /cache/${CI_PROJECT_NAME}-${CI_PROJECT_ID}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA}
+    - chart_build
+
+.auto_devops: &auto_devops |
+    http_status_code=`curl -o .auto_devops.sh -s -m 10 --connect-timeout 10 -w %{http_code} "${CHOERODON_URL}/devops/ci?token=${Token}&type=front"`
+    if [ "$http_status_code" != "200" ]; then
+      cat .auto_devops.sh
+      exit 1
+    fi
+    source .auto_devops.sh
+    function node_module(){
+        npm install --registry http://172.30.4.43:4873 --sass-binary-site=http://npm.taobao.org/mirrors/node-sass
+        mkdir -p /cache/${CI_PROJECT_NAME}-${CI_PROJECT_ID}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA}
+    }
+
+    function node_build(){
+        chmod -R 777 node_modules
+        npm run ${1}
+    }
+
+    function docker_build(){
+        cp -r /cache/${CI_PROJECT_NAME}-${CI_PROJECT_ID}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA}/* ${1:-"."}
+        docker login -u ${DOCKER_USER} -p ${DOCKER_PWD} ${DOCKER_REGISTRY}
+        docker build --pull -t ${DOCKER_REGISTRY}/${GROUP_NAME}/${PROJECT_NAME}:${CI_COMMIT_TAG} ${1:-"."}
+        docker push ${DOCKER_REGISTRY}/${GROUP_NAME}/${PROJECT_NAME}:${CI_COMMIT_TAG}
+    }
+
+before_script:
+  - *auto_devops
+

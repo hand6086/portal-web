@@ -1,0 +1,126 @@
+/* 主题色 */
+$theme-color: #16BC83;
+/* 主题色作为背景时候字体颜色 */
+$background-font-color: #fff;
+/* 主题字体颜色 */
+$theme-font-color: #333333;
+/* todo: 暂用，待客户确认，页面主体内容最大及最小宽度， 超过则两侧留白，小于则页面横向滚动 */
+$content-width: 1200px;
+$content-min-width: 1200px;
+
+@mixin clear-float{
+  &:after{
+    content: "";
+    display: block;
+    clear: both;
+  }
+}
+
+html {
+  font-family: "Microsoft YaHei", "Heiti SC", tahoma, arial, "Hiragino Sans GB", 宋体, sans-serif;
+  font-size: 16px;
+  word-spacing: 1px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.button--green {
+  display: inline-block;
+  border-radius: 4px;
+  border: 1px solid #3b8070;
+  color: #3b8070;
+  text-decoration: none;
+  padding: 10px 30px;
+}
+
+.button--green:hover {
+  color: #fff;
+  background-color: #3b8070;
+}
+
+.button--grey {
+  display: inline-block;
+  border-radius: 4px;
+  border: 1px solid #35495e;
+  color: #35495e;
+  text-decoration: none;
+  padding: 10px 30px;
+  margin-left: 15px;
+}
+
+.button--grey:hover {
+  color: #fff;
+  background-color: #35495e;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+}
+
+ul{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.el-input__inner {
+  border-radius: 0;
+  //border-color: $theme-color;
+}
+.el-textarea__inner{
+  border-radius: 0;
+}
+.el-input__inner:hover {
+  border-color: $theme-color;
+}
+.el-input__inner:focus {
+  border-color: $theme-color;
+}
+.el-input__icon {
+  color: $theme-color;
+}
+
+.el-button--primary {
+  border-radius: 0;
+  border-color: $theme-color;
+  background: $theme-color;
+}
+.el-button--mini, el-button--small{
+  border-radius: 0;
+}
+.el-button--primary:hover {
+  border-color: $theme-color;
+  background: $theme-color;
+}
+.el-button--primary:focus {
+  border-color: $theme-color;
+  background: $theme-color;
+}
+.el-card{
+  border-radius: 0;
+}
+.el-card__body{
+  padding: 0;
+}
+.nuxt-progress{
+  height: 0;
+}
