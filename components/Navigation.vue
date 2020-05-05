@@ -2,7 +2,7 @@
   <div class="navigation" :style="underBorder ? 'border-bottom: 2px solid #16BC83;' : ''">
     <div class="navigation-content">
       <div class="navigation-content-a navigation-content-other">
-        <i class="el-icon-menu"></i>&nbsp;商品分类
+        <i class="el-icon-menu"></i>&nbsp;地区分类
         <ul class="navigation-content-ul" :style="showNav ? 'display:block;' : ''">
           <li v-for="(item,index) in nextNav" :key="index" class="navigation-content-li">
             <div class="navigation-content-ul-left">

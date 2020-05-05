@@ -63,7 +63,7 @@ const actions = {
   async GET_COUNT({ commit }, ctx) {
     const udid = ctx.app.$cookies.get('udid')
     if (udid) {
-      const { data } = await ctx.$axios.post('/portal/api/web/v1/omsCartItem/queryNumber', { udid })
+      const { data } = await ctx.$axios.get('/portal/api/action/portal/omsCart/queryNumber', { udid })
       if (data) {
         commit('init', { count: data, list: [] })
       }
