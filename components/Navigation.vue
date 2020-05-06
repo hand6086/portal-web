@@ -18,18 +18,20 @@
             </div>
             <div class="navigation-content-ul-div">
               <el-row style="height: 100%">
-                <el-col :span="16">
+                <el-col>
                   <el-row v-for="(itemi,indexi) in item.children" :key="indexi" class="navigation-content-ul-div-center-title-group">
                     <el-col :span="4">
                       <!--<span class="navigation-content-ul-div-center-title">{{ itemi.name }}:</span>-->
-                      <nuxt-link class="district" :to="{path: '/list.html', query:{province: item.parentId, city: itemi.parentId, districtId: itemi.id} }">{{ itemi.name }}</nuxt-link>
+                      <a class="district" :href="`/list.html?provinceId=${item.id}&cityId=${itemi.id}`">{{ itemi.name }}</a>
+                      <!--<nuxt-link class="district" :to="{path: '/list.html', query:{provinceId: item.id, cityId: itemi.id} }">{{ itemi.name }}</nuxt-link>-->
                     </el-col>
-                    <!--<el-col :span="20" class="navigation-content-ul-div-center-a-group">
+                    <el-col v-if="itemi.children && itemi.children.length > 0" :span="20" class="navigation-content-ul-div-center-a-group">
                       <span v-for="(itemii,indexii) in itemi.children" :key="indexii">
-                        <a v-if="itemii.relyValue" class="navigation-content-ul-div-center-a" :href="`/list.html?cat=${itemii.relyValue}`">{{ itemii.name }}</a>
-                        <span v-else class="navigation-content-ul-div-center-a">{{ itemii.name }}</span>
+                        <!--<nuxt-link class="navigation-content-ul-div-center-a" :to="{path: '/list.html', query:{provinceId: item.id, cityId: itemi.id, districtId: itemii.id} }">{{ itemii.name }}</nuxt-link>-->
+                        <a class="navigation-content-ul-div-center-a" :href="`/list.html?provinceId=${item.id}&cityId=${itemi.id}&districtId=${itemii.id}`">{{ itemii.name }}</a>
+                        <!--<span v-else class="navigation-content-ul-div-center-a">{{ itemii.name }}</span>-->
                       </span>
-                    </el-col>-->
+                    </el-col>
                   </el-row>&nbsp;
                 </el-col>
                 <!--<el-col :span="8" class="navigation-content-ul-div-right-img">
@@ -97,7 +99,6 @@ export default {
       }) */
       // 动态导航二三级菜单数据获取
       const nextNav = this.$axios.get('/portal/api/web/v1/pmsProductNav/queryAll').then((data) => {
-        console.log(data)
         if (data.data) {
           return data
         } else {
@@ -219,13 +220,14 @@ export default {
               left: 182px;
               top: 0;
               width: 450px;
-              min-height: 480px;
+              height: 480px;
               padding: 30px 20px;
               box-shadow: 6px 2px 10px rgba(0,0,0,0.3);
               background: rgba(255,255,255,0.9);
               z-index: 999;
               display: none;
               cursor: default;
+              overflow: auto;
               .navigation-content-ul-div-center-title-group{
                 margin: 10px 0;
                 .district{

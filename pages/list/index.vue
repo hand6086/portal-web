@@ -31,16 +31,16 @@
         <div style="clear: both;"></div>
 
         <!--排序-->
-        <div class="content-sort">
-          <qup-prod-search
-            :lowest="mPrice"
-            :heighest="lPrice"
-            :sort-order="sort"
-            @exprice-change="expriceChange"
-            @sort-change="sortChange"
-          >
-          </qup-prod-search>
-        </div>
+        <!--<div class="content-sort">-->
+          <!--<qup-prod-search-->
+            <!--:lowest="mPrice"-->
+            <!--:heighest="lPrice"-->
+            <!--:sort-order="sort"-->
+            <!--@exprice-change="expriceChange"-->
+            <!--@sort-change="sortChange"-->
+          <!--&gt;-->
+          <!--</qup-prod-search>-->
+        <!--</div>-->
         <!--商品列表-->
         <div v-if="rows && rows.length>0" class="prod-list">
           <el-row v-for="(line,index) in getLines(rows)" :key="index" :gutter="20" class="prod-row">
@@ -92,11 +92,10 @@
         </qup-pagination>
       </div>
     </div>
-    <div class="guess-like">
-      <!--猜你喜欢-->
-      <GuessLike></GuessLike>
-    </div>
-    <the-qup-global-toolbar></the-qup-global-toolbar>
+    <!--<div class="guess-like">-->
+      <!--&lt;!&ndash;猜你喜欢&ndash;&gt;-->
+      <!--<GuessLike></GuessLike>-->
+    <!--</div>-->
   </div>
 </template>
 
@@ -104,11 +103,11 @@
 import QupCategory from '../../components/QupCategory'
 import Navigation from '../../components/Navigation'
 import QupPagination from '../../components/QupPagination'
-import QupProdSearch from '../../components/QupProdSearch'
-import GuessLike from '../../components/GuessLike'
+// import QupProdSearch from '../../components/QupProdSearch'
+// import GuessLike from '../../components/GuessLike'
 import keyWordsSearch from '../../components/list/keyWordsSearch'
 import udid from '../../mixins/udid'
-import TheQupGlobalToolbar from '../../components/TheQupGlobalToolbar'
+// import TheQupGlobalToolbar from '../../components/TheQupGlobalToolbar'
 
 /**
  * 随机生成商品标签样式
@@ -220,7 +219,7 @@ function getProdList(data, catId, keyword, url, page, pageSize, ev, exprice, bra
 export default {
   name: 'Index',
   layout: 'HeaderSearchCenter',
-  components: { TheQupGlobalToolbar, QupCategory, Navigation, QupPagination, QupProdSearch, GuessLike, keyWordsSearch },
+  components: { QupCategory, Navigation, QupPagination, keyWordsSearch },
   mixins: [udid],
   head() {
     return {
@@ -313,6 +312,9 @@ export default {
       const exprice = ctx.route.query.exprice ? ctx.route.query.exprice : null
       const sort = ctx.route.query.sort ? ctx.route.query.sort : 'sort_sort_desc'
       const brandId = ctx.route.query.brandId ? ctx.route.query.brandId : null
+      const provinceId = ctx.route.query.provinceId ? ctx.route.query.provinceId : null
+      const cityId = ctx.route.query.cityId ? ctx.route.query.cityId : null
+      const districtId = ctx.route.query.districtId ? ctx.route.query.districtId : null
       let url = '/portal/api/action/portal/product/list?page=' + page + '&rows=' + pageSize
       if (catId) {
         url = url + '&cat=' + catId
@@ -329,6 +331,15 @@ export default {
       if (brandId) {
         url = url + '&brandId=' + brandId
       }
+      if (provinceId) {
+        url = url + '&provinceId=' + provinceId
+      }
+      if (cityId) {
+        url = url + '&cityId=' + cityId
+      }
+      if (districtId) {
+        url = url + '&districtId=' + districtId
+      }
       const res = await ctx.$axios.get(encodeURI(url), {})
       let data = { solrProductDtos: {} }
       if (res.data) {
@@ -341,8 +352,8 @@ export default {
   },
   async fetch(ctx) {
     const promiseList = []
-    promiseList.push(ctx.store.dispatch('guessLike/GET_LIST', ctx)) // 页面中用到猜你喜欢组件时加入
-    promiseList.push(ctx.store.dispatch('headerFooter/GET_DATA', ctx)) // 页面中用到header/footer的layout时加入
+    // promiseList.push(ctx.store.dispatch('guessLike/GET_LIST', ctx)) // 页面中用到猜你喜欢组件时加入
+    // promiseList.push(ctx.store.dispatch('headerFooter/GET_DATA', ctx)) // 页面中用到header/footer的layout时加入
     promiseList.push(ctx.store.dispatch('nav/GET_NAV', ctx)) // 页面中用到导航组件时加入
     await Promise.all(promiseList)
   },
@@ -351,7 +362,6 @@ export default {
      * 切换二维码图片
      */
     changeImg(item) {
-      console.log(item)
       item.imgType = (item.imgType === 'display' ? 'qrCode' : 'display')
     },
     /**
