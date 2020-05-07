@@ -8,6 +8,7 @@
             <div class="navigation-content-ul-left">
               <p class="navigation-content-ul-left-title">
                 {{ item.name }}
+
               </p>
               <nuxt-link v-for="(items,indexs) in item.children" v-show="indexs < 2" :key="indexs" class="navigation-content-ul-left-a" :to="{path: '/list.html', query:{province: items.parentId, city: items.parentId, districtId: items.id} }">
                 {{ items.name }}
