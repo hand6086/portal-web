@@ -6,69 +6,69 @@
           <img :src="`${$store.state.imgServer}${$store.state.logo.logoUrl}`" alt="助农产品" width="100%" height="64px">
         </a>
       </div>
-      <div class="header-content-right">
-        <div class="header-content-right-left">
-          <el-autocomplete
-            v-model="layoutSearchValue"
-            size="medium"
-            class="header-content-right-input"
-            prefix-icon="el-icon-search"
-            :fetch-suggestions="querySearchAsync"
-            placeholder="请输入商品名称..."
-            :select-when-unmatched="true"
-            @select="handleSelect"
-          ></el-autocomplete><el-button type="primary" size="medium" class="header-content-right-button" @click="handleSelect">
-            搜&nbsp;索
-          </el-button>
-          <div style="clear: both"></div>
-          <p>
-            <a v-for="(item,index) in hotWordsList" :key="index" :href="item.url">{{ item.name }}</a>
-          </p>
-        </div>
-        <div class="header-content-right-cart">
-          <div class="header-content-right-cart-btn" @mouseenter="getCartList">
-            <el-badge :value="$store.state.shopCart.count" class="item">
-              <a class="header-content-right-badge" href="#"><i class="el-icon-shopping-cart-1"></i></a>
-            </el-badge>
-            <nuxt-link to="/cart.html">
-              我的购物车
-            </nuxt-link>
-          </div>
-          <div class="header-content-right-cart-content">
-            <div v-show="cartList.length > 0" class="header-content-right-cart-content-items">
-              <el-row v-for="(item, index) in cartList" :key="index" class="header-content-right-cart-content-item">
-                <el-col :span="5">
-                  <div class="header-content-right-cart-content-img">
-                    <img :src="`${$store.state.imgServer}${item.productPic}`" width="100%" height="100%">
-                  </div>
-                </el-col>
-                <el-col :span="19" class="header-content-right-cart-content-right">
-                  <h1 class="header-content-right-cart-content-title">
-                    {{ item.productName }}
-                  </h1>
-                  <p class="header-content-right-cart-content-p">
-                    <span class="header-content-right-cart-content-cny">¥{{ item.promotionPrice }}</span>
-                    <span>×{{ item.productQuantity }}</span>
-                    <el-button class="header-content-right-cart-content-btn" type="text" size="mini" @click="deleteCartItem(item.id,index)">
-                      删除
-                    </el-button>
-                  </p>
-                </el-col>
-              </el-row>
-            </div>
-            <div v-show="cartList.length > 0" class="header-content-right-cart-content-footer">
-              共{{ $store.state.shopCart.num }}件商品, 共计<span class="header-content-right-cart-content-footer-cny">¥{{ $store.state.shopCart.price }}</span>
-              <el-button class="header-content-right-cart-content-footer-btn" type="primary" size="mini" @click="goToCart">
-                去结算
-              </el-button>
-            </div>
-            <div v-show="cartList.length === 0" class="header-content-right-cart-content-no">
-              <img src="../../static/icon/img_empty_shopping_cart.png" style="float: left;margin-left: 14px" width="40px" height="40px">
-              购物车中还没有商品，赶紧选购吧！
-            </div>
-          </div>
-        </div>
-      </div>
+      <!--<div class="header-content-right">-->
+        <!--<div class="header-content-right-left">-->
+          <!--<el-autocomplete-->
+            <!--v-model="layoutSearchValue"-->
+            <!--size="medium"-->
+            <!--class="header-content-right-input"-->
+            <!--prefix-icon="el-icon-search"-->
+            <!--:fetch-suggestions="querySearchAsync"-->
+            <!--placeholder="请输入商品名称..."-->
+            <!--:select-when-unmatched="true"-->
+            <!--@select="handleSelect"-->
+          <!--&gt;</el-autocomplete><el-button type="primary" size="medium" class="header-content-right-button" @click="handleSelect">-->
+            <!--搜&nbsp;索-->
+          <!--</el-button>-->
+          <!--<div style="clear: both"></div>-->
+          <!--<p>-->
+            <!--<a v-for="(item,index) in hotWordsList" :key="index" :href="item.url">{{ item.name }}</a>-->
+          <!--</p>-->
+        <!--</div>-->
+        <!--<div class="header-content-right-cart">-->
+          <!--<div class="header-content-right-cart-btn" @mouseenter="getCartList">-->
+            <!--<el-badge :value="$store.state.shopCart.count" class="item">-->
+              <!--<a class="header-content-right-badge" href="#"><i class="el-icon-shopping-cart-1"></i></a>-->
+            <!--</el-badge>-->
+            <!--<nuxt-link to="/cart.html">-->
+              <!--我的购物车-->
+            <!--</nuxt-link>-->
+          <!--</div>-->
+          <!--<div class="header-content-right-cart-content">-->
+            <!--<div v-show="cartList.length > 0" class="header-content-right-cart-content-items">-->
+              <!--<el-row v-for="(item, index) in cartList" :key="index" class="header-content-right-cart-content-item">-->
+                <!--<el-col :span="5">-->
+                  <!--<div class="header-content-right-cart-content-img">-->
+                    <!--<img :src="`${$store.state.imgServer}${item.productPic}`" width="100%" height="100%">-->
+                  <!--</div>-->
+                <!--</el-col>-->
+                <!--<el-col :span="19" class="header-content-right-cart-content-right">-->
+                  <!--<h1 class="header-content-right-cart-content-title">-->
+                    <!--{{ item.productName }}-->
+                  <!--</h1>-->
+                  <!--<p class="header-content-right-cart-content-p">-->
+                    <!--<span class="header-content-right-cart-content-cny">¥{{ item.promotionPrice }}</span>-->
+                    <!--<span>×{{ item.productQuantity }}</span>-->
+                    <!--<el-button class="header-content-right-cart-content-btn" type="text" size="mini" @click="deleteCartItem(item.id,index)">-->
+                      <!--删除-->
+                    <!--</el-button>-->
+                  <!--</p>-->
+                <!--</el-col>-->
+              <!--</el-row>-->
+            <!--</div>-->
+            <!--<div v-show="cartList.length > 0" class="header-content-right-cart-content-footer">-->
+              <!--共{{ $store.state.shopCart.num }}件商品, 共计<span class="header-content-right-cart-content-footer-cny">¥{{ $store.state.shopCart.price }}</span>-->
+              <!--<el-button class="header-content-right-cart-content-footer-btn" type="primary" size="mini" @click="goToCart">-->
+                <!--去结算-->
+              <!--</el-button>-->
+            <!--</div>-->
+            <!--<div v-show="cartList.length === 0" class="header-content-right-cart-content-no">-->
+              <!--<img src="../../static/icon/img_empty_shopping_cart.png" style="float: left;margin-left: 14px" width="40px" height="40px">-->
+              <!--购物车中还没有商品，赶紧选购吧！-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
     </div>
     <div style="clear: both;"></div>
   </div>
@@ -217,7 +217,7 @@ export default {
       margin: 0 auto;
 
       .header-content-left {
-        width: 182px;
+        width: 100%;
         float: left;
         margin-right: 194px;
 
